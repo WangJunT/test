@@ -13,15 +13,12 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>dubbo-server</module>
-        <module>dubbo-client</module>
-        <module>dubbo-common</module>
         <module>dayily-test</module>
         <module>SpringTest</module>
-        <module>AgentTest</module>
         <module>nio-test</module>
         <module>rpc-test</module>
         <module>my-tomcat-test</module>
+        <module>labuladong-test</module>
     </modules>
     <name>test</name>
     <description>Demo project for Spring Boot</description>

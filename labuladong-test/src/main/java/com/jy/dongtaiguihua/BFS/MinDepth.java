@@ -1,4 +1,4 @@
-package com.jy.dongtaiguihua;
+package com.jy.dongtaiguihua.BFS;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;

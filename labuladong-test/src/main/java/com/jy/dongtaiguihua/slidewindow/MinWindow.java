@@ -1,0 +1,116 @@
+package com.jy.dongtaiguihua.slidewindow;
+
+import java.util.HashMap;
+import java.util.Map;
+
+//https://leetcode-cn.com/problems/minimum-window-substring/submissions/
+public class MinWindow {
+    public static String minWindow(String s, String t) {
+        Map<Character, Integer> need = new HashMap<>();
+        Map<Character, Integer> window = new HashMap<>();
+        for (Character c
+                : t.toCharArray()) {
+            Integer orDefault = need.getOrDefault(c, 0);
+            need.put(c, ++orDefault);
+        }
+        int left = 0;
+        int right = 0;
+        //校验是否可以开始移动左窗口
+        int valid = 0;
+        // 记录最小覆盖子串的起始索引及长度
+        int len = -1;
+        String result = "";
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            if (need.containsKey(c)) {
+                Integer orDefault = window.getOrDefault(c, 0);
+                window.put(c, ++orDefault);
+                if (window.get(c).equals(need.get(c))) {
+                    valid++;
+                }
+            }
+            //注意这里，已经加一了，所以下面的截取不用加一
+            right++;
+            while (valid == need.size()) {
+                if (len == -1 || (right - left) < len) {
+                    result = s.substring(left, right);
+                    len = right - left;
+                }
+                char leftC = s.charAt(left);
+                if (need.containsKey(leftC)) {
+                    if (window.get(leftC).equals(need.get(leftC))) {
+                        valid--;
+                    }
+                    Integer integer = window.get(leftC);
+                    if (integer > 1) {
+                        window.put(leftC, --integer);
+                    } else {
+                        window.remove(leftC);
+                    }
+                }
+                left++;
+            }
+        }
+        return result;
+    }
+
+    private static boolean windowContainNeed(Map<Character, Integer> window, Map<Character, Integer> need) {
+        for (Map.Entry<Character, Integer> entry : need.entrySet()) {
+            if (window.getOrDefault(entry.getKey(), 0) < entry.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String s = "ADOBECODEBANC", t = "ABC";
+        String s1 = minWindow(s, t);
+        System.out.println(s1);
+    }
+    //自己想的
+//    public String minWindow(String s, String t) {
+//        Map<Character, Integer> need = new HashMap<>();
+//        Map<Character, Integer> window = new HashMap<>();
+//        for (Character c
+//                : t.toCharArray()) {
+//            Integer orDefault = need.getOrDefault(c, 0);
+//            need.put(c, ++orDefault);
+//        }
+//        int left = 0;
+//        int right = 0;
+//        int valid = 0;
+//        String result = "";
+//        while (right < s.length()) {
+//            Integer orDefault = window.getOrDefault(s.charAt(right), 0);
+//            window.put(s.charAt(right), ++orDefault);
+//            while (windowContainNeed(window, need)) {
+//                if (valid == 0) {
+//                    result = s.substring(left, right + 1);
+//                    valid = right - left;
+//                } else if ((right - left) < valid) {
+//                    result = s.substring(left, right + 1);
+//                    valid = right - left;
+//                }
+//                Integer integer = window.getOrDefault(s.charAt(left), 0);
+//                if (integer > 1) {
+//                    window.put(s.charAt(left), --integer);
+//                } else {
+//                    window.remove(s.charAt(left));
+//                }
+//                left++;
+//            }
+//            right++;
+//        }
+//        return result;
+//    }
+//
+//    private boolean windowContainNeed(Map<Character, Integer> window, Map<Character, Integer> need) {
+//        for (Map.Entry<Character, Integer> entry : need.entrySet()) {
+//            if (window.getOrDefault(entry.getKey(), 0) < entry.getValue()) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+}

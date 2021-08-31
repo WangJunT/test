@@ -54,6 +54,55 @@ public class MinWindow {
         return result;
     }
 
+    public String minWindow1(String s, String t) {
+        //存储目标字符的hash表
+        Map<Character, Integer> need = new HashMap();
+        for (Character character : t.toCharArray()) {
+            need.put(character, need.getOrDefault(character, 0) + 1);
+        }
+        Map<Character, Integer> window = new HashMap();
+        int left = 0;
+        int right = 0;
+        int valid = 0;
+        int begin = 0;
+        int length = Integer.MAX_VALUE;
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            if (need.containsKey(c)) {
+                Integer orDefault = window.getOrDefault(c, 0);
+                window.put(c, ++orDefault);
+                if (window.get(c).equals(need.get(c))) {
+                    valid++;
+                }
+            }
+            right++;
+            while (valid == need.size()) {
+                char leftChar = s.charAt(left);
+                if (need.containsKey(leftChar)) {
+                    if (window.get(leftChar).equals(need.get(leftChar))) {
+                        valid--;
+                    }
+                    Integer aa = window.get(leftChar);
+                    if (aa > 1) {
+                        window.put(leftChar, --aa);
+                    } else {
+                        window.remove(leftChar);
+                    }
+                    if (length > (right - left)) {
+                        begin = left;
+                        length = right - left;
+                    }
+                }
+                left++;
+            }
+        }
+        if (length == Integer.MAX_VALUE) {
+            return "";
+        } else {
+            return s.substring(begin, begin + length);
+        }
+    }
+
     private static boolean windowContainNeed(Map<Character, Integer> window, Map<Character, Integer> need) {
         for (Map.Entry<Character, Integer> entry : need.entrySet()) {
             if (window.getOrDefault(entry.getKey(), 0) < entry.getValue()) {

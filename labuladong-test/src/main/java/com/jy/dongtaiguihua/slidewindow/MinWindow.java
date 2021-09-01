@@ -61,13 +61,19 @@ public class MinWindow {
             need.put(character, need.getOrDefault(character, 0) + 1);
         }
         Map<Character, Integer> window = new HashMap();
+        //左窗口
         int left = 0;
+        //右窗口
         int right = 0;
+        //window中是否包含了目标字符中所有字符
         int valid = 0;
+        //满足覆盖的开始索引
         int begin = 0;
+        //满足覆盖的子串长度
         int length = Integer.MAX_VALUE;
         while (right < s.length()) {
             char c = s.charAt(right);
+            //如果遍历到的字符存在
             if (need.containsKey(c)) {
                 Integer orDefault = window.getOrDefault(c, 0);
                 window.put(c, ++orDefault);
@@ -76,9 +82,11 @@ public class MinWindow {
                 }
             }
             right++;
+            // 判断左侧窗口是否要收缩
             while (valid == need.size()) {
                 char leftChar = s.charAt(left);
                 if (need.containsKey(leftChar)) {
+                    // 进行窗口内数据的一系列更新
                     if (window.get(leftChar).equals(need.get(leftChar))) {
                         valid--;
                     }
@@ -88,6 +96,7 @@ public class MinWindow {
                     } else {
                         window.remove(leftChar);
                     }
+                    // 在这里更新最小覆盖子串
                     if (length > (right - left)) {
                         begin = left;
                         length = right - left;

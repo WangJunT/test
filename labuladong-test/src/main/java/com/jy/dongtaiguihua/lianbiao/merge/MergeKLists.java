@@ -25,7 +25,4 @@ public class MergeKLists {
         }
     }
 
-    public ListNode mergeKLists(ListNode[] lists) {
-//        Comparable<ListNode>
-    }
 }

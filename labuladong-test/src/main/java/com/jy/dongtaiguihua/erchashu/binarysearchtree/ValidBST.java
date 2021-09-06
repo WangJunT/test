@@ -34,27 +34,12 @@ public class ValidBST {
     }
 
     public boolean isValidBST(TreeNode root) {
-        if (null == root) {
-            return true;
-        }
-        if (root.left != null && root.left.val >= root.val) {
-            return false;
-        }
-        if (root.right != null && root.right.val <= root.val) {
-            return false;
-        }
-        return isValidBSTExtend(root.left, root, 1) && isValidBSTExtend(root.right, root, 2);
+        return isValidBSTExtend(root, null, null);
     }
 
-    private boolean isValidBSTExtend(TreeNode root, TreeNode tmp, int witch) {
+    private boolean isValidBSTExtend(TreeNode root, TreeNode min, TreeNode max) {
         if (null == root) {
             return true;
-        }
-        if (witch == 1 && tmp.val <= root.val) {
-            return false;
-        }
-        if (witch == 2 && tmp.val >= root.val) {
-            return false;
         }
         if (root.left != null && root.left.val >= root.val) {
             return false;
@@ -62,6 +47,12 @@ public class ValidBST {
         if (root.right != null && root.right.val <= root.val) {
             return false;
         }
-        return isValidBSTExtend(root.left, tmp, witch) && isValidBSTExtend(root.right, tmp, witch);
+        if (min != null && min.val >= root.val) {
+            return false;
+        }
+        if (max != null && max.val <= root.val) {
+            return false;
+        }
+        return isValidBSTExtend(root.left, min, root) && isValidBSTExtend(root.right, root, max);
     }
 }

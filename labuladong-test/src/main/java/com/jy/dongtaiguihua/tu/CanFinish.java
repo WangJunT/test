@@ -25,9 +25,11 @@ public class CanFinish {
             list[i] = new LinkedList<>();
         }
         for (int tmp[] : prerequisites) {
+            // 修完课程 from 才能修课程 to
+            // 在图中添加一条从 from 指向 to 的有向边
             int from = tmp[1];
             int to = tmp[0];
-            list[to].add(from);
+            list[from].add(to);
         }
         for (int i = 0; i < numCourses; i++) {
             // 遍历图中的所有节点
@@ -61,8 +63,9 @@ public class CanFinish {
     public static void main(String[] args) {
 //        int[][] arr = {{1, 0}};
 
-        int[][] arr = {{0, 10}, {3, 18}, {5, 5}, {6, 11}, {11, 14}, {13, 1}, {15, 1}, {17, 4}};
-        boolean b = canFinish(20, arr);
+//        int[][] arr = {{0, 10}, {3, 18}, {5, 5}, {6, 11}, {11, 14}, {13, 1}, {15, 1}, {17, 4}};
+        int[][] arr = {{1, 0}};
+        boolean b = canFinish(2, arr);
         System.out.println(1);
     }
 }
